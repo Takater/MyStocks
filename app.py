@@ -1,5 +1,4 @@
 import os
-import waitress
 from cs50 import SQL
 from flask import Flask, redirect, render_template, request, session
 from flask_session import Session
@@ -344,8 +343,3 @@ def sell():
 
             # Template with selected stock from home page
             return render_template("sell.html", symbol=request.args.get('symbol'), stocks=stocks)
-
-if __name__ == "__main__":
-     app.debug = False
-     port = int(os.environ.get('PORT', 5000))
-     waitress.serve(app, port=port)
