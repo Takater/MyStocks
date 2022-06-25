@@ -3,4 +3,3 @@ Flask
 Flask-Session
 werkzeug
 requests
-functools
