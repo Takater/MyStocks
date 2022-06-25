@@ -3,5 +3,5 @@ Flask
 Flask-Session
 werkzeug
 requests
-urllib.parse
+urllib
 functools
