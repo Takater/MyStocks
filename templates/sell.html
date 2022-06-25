@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Sell
+{% endblock %}
+{% block main %}
+
+    <form action="/sell" method="post">
+    <div class="container-sm alert alert-warning" role="alert">Prices changes constantly. Therefore, charges may be slightly different from below</div>
+        <div class="mb-3">
+            <label for="stocks"> Choose stock: </label><br>
+            <select id="stocks" name="symbol" autofocus>
+                {% set i = [] %}
+                {% for stock in stocks %}
+                    {% if symbol and i == [] %}
+                        <option selected>{{ symbol }}</option>
+                        {% set j = i.append(1) %}
+                    {% endif %}
+                    {% if stock['stock'] != symbol %}
+                    <option>{{ stock['stock'] }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select><br>
+            <label> Price: </label><br>
+            <input readOnly class="form-control mx-auto w-auto" id="price" name="price" step="0.01" type="number"><br>
+            <label> Number of shares: </label>
+            <input class="form-control mx-auto w-auto" id="shares" name="shares" type="number" min="1"><br>
+            <label> Total: </label><br>
+            <input readOnly class="form-control mx-auto w-auto" id="total" name="total" step="0.01" type="number">
+            <p id="conf_cash"></p>
+        </div>
+        <button id="buy_stock" class="btn btn-primary" type="submit">Sell</button>
+    </form>
+    <script>
+        let sel = document.getElementById("stocks");
+        sel.addEventListener("focus", async function(){
+            let response = await fetch("/search?symbol=" + sel.value);
+            let stock = await response.json();
+            document.getElementById("price").value = stock['price'].toFixed(2);
+        });
+
+        let chc = document.getElementById("stocks");
+        chc.addEventListener("change", async function(){
+            let response = await fetch("/search?symbol=" + chc.value);
+            let stock = await response.json();
+            document.getElementById("price").value = stock['price'].toFixed(2);
+            let shares = document.getElementById("shares");
+            if (shares != "") {
+                document.getElementById("total").value = (shares.value*stock['price']).toFixed(2);
+            } else {
+                document.getElementById("total").value = "";
+            }
+        });
+
+        let shares = document.getElementById("shares");
+        shares.addEventListener("change", async function(){
+            let response = await fetch("/search?symbol=" + document.getElementById("stocks").value);
+            let stock = await response.json();
+            document.getElementById("total").value = (shares.value * stock['price']).toFixed(2);
+        });
+    </script>
+{% endblock %}

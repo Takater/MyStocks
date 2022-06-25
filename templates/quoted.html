@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Stocks
+{% endblock %}
+{% block main %}
+    <table class="table table-hover table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Company</th>
+                <th>Price</th>
+                <th>Options</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ stocks['name'] }}</td>
+                <td id="price">{{ stocks['price'] | usd }}</td>
+                <td><input type="button" class="btn btn-success" value="Buy" onclick="buystock('{{stocks['symbol']}}', '{{stocks['price']}}')"></td>
+            </tr>
+        </tbody>
+    </table>
+    <script>
+        function buystock(symbol, price) {
+            window.location.replace('/buy?symbol=' + symbol + '&price=' + price);
+        }
+    </script>
+{% endblock %}

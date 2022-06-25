@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    History
+{% endblock %}
+{% block main %}
+    <table class="table table-hover table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Method</th>
+                <th>Company</th>
+                <th>Price</th>
+                <th>Shares</th>
+                <th>Total</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for row in history %}
+            <tr>
+            {% if row['type'] == 'BUY'%}
+                <td class="bg-success text-center text-white">{{ row['type']}}</td>
+            {% elif row['type'] == 'SELL' %}
+                <td class="bg-danger text_center text-white">{{ row['type']}}</td>
+            {% endif %}
+                <td>{{ row['stock'] }}</td>
+                <td>{{ row['price'] | usd}}</td>
+                <td>{{ row['shares'] }}</td>
+                <td>{{ row['total'] | usd}}</td>
+                <td>{{ row['time'] }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Log In
+{% endblock %}
+
+{% block main %}
+    <form id="loginform" action="/login" method="post">
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="username" name="username" placeholder="Username" type="text">
+        </div>
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" id="password" name="password" placeholder="Password" type="password">
+        </div>
+        <button class="btn btn-primary" type="submit">Log In</button>
+    </form>
+    <div class="freelogin">
+        <div class="container-sm alert alert-success" role="alert">
+            <h3>Free-2-Use Login:</h3><br>
+            <span class="alert-danger">Purchases will not remain in history when you log out</span>
+            <hr>
+            <button class="btn btn-primary" onclick="useTestUser()">Use</button>
+        </div>
+    </div>
+
+    <script>
+        function useTestUser () {
+            document.getElementById("username").value = "testuser";
+            document.getElementById("password").value = "usertest";
+            document.getElementById("loginform").submit();
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Buy
+{% endblock %}
+{% block main %}
+    <form action="/buy" method="post">
+    <div class="container-sm alert alert-warning" role="alert">Prices changes constantly. Therefore, charges may be slightly different from below</div>
+        <div class="mb-3">
+            <label> Choose stock: </label>
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="symbol" name="symbol" placeholder="Stock symbol" type="text" value={{symbol}}><br>
+            <label> Price: </label><br>
+            <input readOnly class="form-control mx-auto w-auto" id="price" name="price" type="number" step="0.01" min="1" value={{price}}><br>
+            <label> Number of shares: </label>
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="shares" name="shares" type="number" min="1"><br>
+            <label> Total: </label><br>
+            <input readOnly class="form-control mx-auto w-auto" id="total" name="total" type="number" step="0.01" min="1">
+            <p id="conf_cash"></p>
+        </div>
+        <button id="buy_stock" class="btn btn-primary" type="submit">Buy</button>
+    </form>
+    <script>
+    let symbol1 = document.getElementById("symbol");
+    symbol1.addEventListener('focus', async function() {
+        if (symbol1.value != "") {
+            let response = await fetch('/search?symbol=' + symbol1.value);
+            let stocks = await response.json();
+            document.getElementById("price").value = stocks['price'].toFixed(2);
+        } else {
+            document.getElementById("price").value = "";
+        }
+    });
+
+    let symbol = document.getElementById("symbol");
+    symbol.addEventListener('change', async function() {
+        if (symbol.value != "") {
+            let response = await fetch('/search?symbol=' + symbol.value);
+            let stocks = await response.json();
+            document.getElementById("price").value = stocks['price'].toFixed(2);
+        } else {
+            document.getElementById("price").value = "";
+        }
+    });
+
+    let shares = document.getElementById("shares");
+    shares.addEventListener('change', async function() {
+        price = document.getElementById("price").value;
+        document.getElementById("total").value = (shares.value*price).toFixed(2);
+        let response1 = await fetch('/search');
+        let user = await response1.json();
+        cash = user['cash'];
+        total = document.getElementById("total").value;
+        if(total > cash) {
+            document.getElementById("conf_cash").innerHTML = "You don't have enough cash for this purchase";
+        } else {
+            document.getElementById("conf_cash").innerHTML = "";
+        }
+    });
+    </script>
+{% endblock %}

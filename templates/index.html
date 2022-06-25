@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Home
+{% endblock %}
+{% block main %}
+    <table class="table table-hover table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Company</th>
+                <th>Price</th>
+                <th>Shares</th>
+                <th>Total</th>
+                <th colspan="2">Options</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for stock in stocks %}
+            <tr>
+                <td>{{ stock['stock'] }}</td>
+                <td>{{ stock['price'] | usd }}</td>
+                <td>{{ stock['shares'] }}</td>
+                <td class="total_price">{{ stock['total'] | usd }}</td>
+                <td><input class="btn btn-success" type="button" value="Buy" onclick="buystock('{{stock['stock']}}')"></td>
+                <td><input class="btn btn-danger" type="button" value="Sell" onclick="sellstock('{{stock['stock']}}')"></td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <td class="bg-dark text-white">Current Cash:</td>
+            <td>{{curr_cash | usd}}</td>
+            <td class="bg-dark text-white">Total Balance:</td>
+            <td>{{balance | usd}}</td>
+        </tr>
+        </tbody>
+    </table>
+    <script>
+    function buystock(symbol) {
+            window.location.replace('/buy?symbol=' + symbol);
+        }
+
+    function sellstock(symbol) {
+        window.location.replace('/sell?symbol=' + symbol);
+    }
+    </script>
+{% endblock %}

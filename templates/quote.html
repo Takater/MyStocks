@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Stocks
+{% endblock %}
+{% block main %}
+    <form action="/quote" method="post">
+        <div class="mb-3">
+            <label> Search for stock: </label>
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="symbol" name="symbol" placeholder="Stock symbol" type="text">
+            <span class="symbollist">Don't know any stock symbols? <a href="https://stockanalysis.com/stocks/" target="_blank">Click here</a></span>
+        </div>
+        <button class="btn btn-primary" type="submit">Search</button>
+    </form>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block main %}
+    <form action="/register" method="post">
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="username" name="username" placeholder="Username" type="text">
+        </div>
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" id="password" name="password" placeholder="Password" type="password">
+        </div>
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" id="confirmation" name="confirmation" placeholder="Confirm password" type="password" oninput="confirm_pw(this.value)">
+            <p id="conf_pw"></p>
+        </div>
+        <button id="registerbtn" class="btn btn-primary" type="submit">Register</button>
+    </form>
+    <script>
+    function confirm_pw(conf) {
+        pw = document.getElementById("password").value;
+        if (conf != pw && conf != "") {
+            document.getElementById("conf_pw").innerHTML = "Passwords are not the same";
+            document.getElementById("registerbtn").disabled = true;
+        } else {
+            document.getElementById("conf_pw").innerHTML = "";
+            document.getElementById("registerbtn").disabled = false;
+        }
+    }
+    </script>
+{% endblock %}
