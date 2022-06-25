@@ -3,5 +3,4 @@ Flask
 Flask-Session
 werkzeug
 requests
-urllib
 functools
